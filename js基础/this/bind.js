@@ -43,26 +43,20 @@ Function.prototype.bindFn = function (thisArg) {
         var finalArgs = [...args, ...arguments]
 
         if (new.target !== undefined) { //说明是用new来调用的
-
-            // 把foo的原型赋值给bound
-            bound.prototype = Object.create(self.prototype);
-
-            // 执行foo，把 bound 绑定
             var result = self.apply(this, finalArgs);
-            
-            // 如果 foo返回的是引用值，就直接返回这个值
             if (result instanceof Object) {
                 return result;
             }
-
-            // 否则返回当前的bound
             return this;
         }
         else {
             return self.apply(thisArg, finalArgs);
         }
     };
-    bound.prototype.constructor = self;
+    if(self.prototype) {
+        bound.prototype = Object.create(self.prototype);
+        bound.prototype.constructor = self;
+    }
     return bound;
 }
 
@@ -75,7 +69,9 @@ function foo2(a, b) {
     return 1;
 }
 
-foo2.prototype.foo = () => {}
+foo2.prototype.foo = function () {
+    console.log(this.name)
+}
 
 var fn3 = foo2.bindFn(obj2, 1)
 var result = new fn3(2)
@@ -84,3 +80,4 @@ var fn4 = foo2.bind(obj2, 1)
 var result1 = new fn4(2);
 
 assert.strictEqual(JSON.stringify(result), JSON.stringify(result1));
+assert.strictEqual(JSON.stringify(result.foo), JSON.stringify(result1.foo));
