@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+    <table id="table">
+        <tr>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+        </tr>
+        <tr>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+        </tr>
+        <tr>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+            <td class="nw"><strong>Northwest</strong><br>Metal<br>Silver<br>Elders</td>
+        </tr>
+    </table>
+</div>
+    <script>
+
+        // 1. 
+        let selected  // 用来存放当前选择的 td 元素 
+
+        table.addEventListener('click', function (event) {
+            const target = event.target
+
+            const td = event.target.closest('td')
+            // Element.closest() 方法用来获取：匹配特定选择器且离当前元素最近的祖先元素（也可以是当前元素本身)
+            // 如果匹配不到，则返回 null。
+
+            if(!td) return  // 忽略找不到 td 的元素点击
+            if(!table.contains(td)) return  // 忽略不在 table 当中的 td 元素 
+
+            if(selected) {
+                selected.style.backgroundColor = "transparent"
+            }
+
+            selected = td
+            selected.style.backgroundColor = "red"
+        })
+
+
+        // 2.
+        // 事件委托：
+        function delegate(element,eventType,selector,fn) {
+
+            element.addEventListener(eventType,function (event) {
+                const target = event.target
+                const findOne = [target.parentNode, target].some(item => {
+                    return item.classList.contains(selector)
+                })
+                if(findOne) {
+                    fn(event)
+                }
+                return 
+            })
+        }
+
+        delegate(table,'click', 'nw', (e) => {
+            console.log(e);
+        })
+    </script>
+</body>
+
+</html>

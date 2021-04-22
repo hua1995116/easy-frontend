@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+      #big{
+          width:500px;
+          height: 500px;
+          background: green;
+      }
+      #small {
+        width:200px;
+          height: 200px;
+          background: red;
+      }
+  </style>
+</head>
+
+<body>
+  <div id="big">大
+      <div id="small">
+          小
+      </div>
+  </div>
+
+  <script>
+
+      // mouseover和mouseout存在冒泡机制，且本身不是进入，而是看鼠标当前在谁的上面。
+      big.addEventListener('mouseover',function() {
+          console.log('big mouseover')
+      })
+      big.addEventListener('mouseout',function() {
+          console.log('big mouseout')
+      })
+      small.addEventListener('mouseover',function() {
+          console.log('small mouseover')
+      })
+      small.addEventListener('mouseout',function() {
+          console.log('small mouseout')
+      })
+
+
+    // mouseenter和mouseleave不存在冒泡机制，本身是进入，进入子元素还是在父元素内。
+      big.addEventListener('mouseenter',function() {
+          console.log('big mouseenter')
+      })
+      big.addEventListener('mouseleave',function() {
+          console.log('big mouseleave')
+      })
+      small.addEventListener('mouseenter',function() {
+          console.log('small mouseenter')
+      })
+      small.addEventListener('mouseleave',function() {
+          console.log('small mouseleave')
+      })
+  </script>
+
+</html>
