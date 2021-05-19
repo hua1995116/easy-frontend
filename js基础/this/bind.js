@@ -32,7 +32,7 @@ var res2 = fn2(2)
 assert.strictEqual(JSON.stringify(res1), JSON.stringify(res2));
 
 // 考虑new实例化返回值改变this指向版
-Function.prototype.bindFn = function (thisArg) {
+Function.prototype._bind = function (thisArg) {
     if (typeof this !== 'function') {
         throw new TypeError(this + ' must be a function');
     }
@@ -73,7 +73,11 @@ foo2.prototype.foo = function () {
     console.log(this.name)
 }
 
-var fn3 = foo2.bindFn(obj2, 1)
+var fn5 = foo2._bind(obj2, 1);
+fn5.prototype = {};
+var result2 = new fn5(2);
+
+var fn3 = foo2._bind(obj2, 1)
 var result = new fn3(2)
 
 var fn4 = foo2.bind(obj2, 1)
